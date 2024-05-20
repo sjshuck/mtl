@@ -38,7 +38,10 @@ module Control.Monad.Writer.CPS (
     execWriterT,
     mapWriterT,
     -- * Lifting helper type
-    MonadWriter.LiftingWriter(..),
+    MonadWriter.LiftingWriter,
+    MonadWriter.LiftWriter(..),
+    MonadWriter.LiftWriterRWS(..),
+    -- * Lifting into the transformer
     module Control.Monad.Trans,
   ) where
 
