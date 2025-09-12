@@ -125,7 +125,7 @@ import Data.Kind (Type)
 --
 -- 1. @'accum' ('const' (x, 'mempty'))@ @=@ @'pure' x@
 -- 2. @'accum' f '*>' 'accum' g@ @=@
--- @'accum' '$' \acc -> let (_, v) = f acc
+-- @'accum' '$' \\acc -> let (_, v) = f acc
 --                          (res, w) = g (acc '<>' v) in (res, v '<>' w)@
 --
 -- If you choose to define 'look' and 'add' instead, their definitions must obey
@@ -134,14 +134,14 @@ import Data.Kind (Type)
 -- 1. @'look' '*>' 'look'@ @=@ @'look'@
 -- 2. @'add' 'mempty'@ @=@ @'pure' ()@
 -- 3. @'add' x '*>' 'add' y@ @=@ @'add' (x '<>' y)@
--- 4. @'add' x '*>' 'look'@ @=@ @'look' '>>=' \w -> 'add' x '$>' w '<>' x@
+-- 4. @'add' x '*>' 'look'@ @=@ @'look' '>>=' \\w -> 'add' x '$>' w '<>' x@
 --
 -- If you want to define both, the relationship between them is as follows.
 -- These are also the default definitions.
 --
--- 1. @'look'@ @=@ @'accum' '$' \acc -> (acc, mempty)@
--- 2. @'add' x@ @=@ @'accum' '$' \acc -> ('()', x)@
--- 3. @'accum' f@ @=@ @'look' >>= \acc -> let (res, v) = f acc in 'add' v '$>' res@
+-- 1. @'look'@ @=@ @'accum' '$' \\acc -> (acc, mempty)@
+-- 2. @'add' x@ @=@ @'accum' '$' \\acc -> ('()', x)@
+-- 3. @'accum' f@ @=@ @'look' >>= \\acc -> let (res, v) = f acc in 'add' v '$>' res@
 --
 -- @since 2.3
 class (Monoid w, Monad m) => MonadAccum w m | m -> w where
