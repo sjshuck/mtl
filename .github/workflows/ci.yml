@@ -3,8 +3,9 @@ name: CI
 # Trigger the workflow on push or pull request, but only for the main branch
 on:
   pull_request:
+    branches: [ "master" ]
   push:
-    branches: ["master"]
+    branches: [ "master", "fix-ci" ]
 
 jobs:
   native:
