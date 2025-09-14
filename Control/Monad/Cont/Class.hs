@@ -196,7 +196,7 @@ label_ = callCC $ return . fix
 -- provided that @f@ is quasi-algebraic. More specifically, for any @g@, we must have:
 --
 -- @
--- 'join' '$' f (\exit -> 'pure' '$' g (exit '.' 'pure') = f g
+-- 'join' '$' f (\\exit -> 'pure' '$' g (exit '.' 'pure') = f g
 -- @
 --
 -- 'ContT.callCC' is quasi-algebraic; furthermore, for any quasi-algebraic @f@,
