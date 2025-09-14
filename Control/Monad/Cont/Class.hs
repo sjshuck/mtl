@@ -211,6 +211,10 @@ label_ = callCC $ return . fix
 -- @since 2.3.1
 liftCallCC :: 
   forall (t :: (Type -> Type) -> Type -> Type) (m :: Type -> Type) (a :: Type) (b :: Type) . 
-  (MonadTrans t, Monad m, forall (m' :: Type -> Type) . Monad m' => Monad (t m')) => 
+  (MonadTrans t, Monad m
+#if !MIN_VERSION_transformers(0,6,0) || defined(__MHS__)
+  , forall (m' :: Type -> Type) . Monad m' => Monad (t m')
+#endif
+  ) =>
   CallCC m (t m a) b -> CallCC (t m) a b
 liftCallCC f g = join . lift . f $ \exit -> pure $ g (lift . exit . pure)
