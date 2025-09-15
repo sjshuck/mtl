@@ -83,6 +83,22 @@ module Control.Monad.Accum
   ( -- * Type class
     MonadAccum (..),
 
+    -- * The 'Accum' monad
+    Accum.Accum,
+    Accum.runAccum,
+    Accum.execAccum,
+    Accum.evalAccum,
+    Accum.mapAccum,
+
+    -- * The 'AccumT' monad transformer
+    Accum.AccumT (..),
+    Accum.execAccumT,
+    Accum.evalAccumT,
+    Accum.mapAccumT,
+    Accum.readerToAccumT,
+    Accum.writerToAccumT,
+    Accum.accumToStateT,
+
     -- * Lifting helper type
     LiftingAccum (..),
 
