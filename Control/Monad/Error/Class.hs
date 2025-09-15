@@ -48,6 +48,7 @@ module Control.Monad.Error.Class (
     tryError,
     withError,
     handleError,
+    onError,
     mapError,
     modifyError,
   ) where
@@ -72,9 +73,9 @@ import qualified Control.Monad.Trans.RWS.CPS as CPSRWS
 import qualified Control.Monad.Trans.Writer.CPS as CPSWriter
 import Control.Monad.Trans.Class (lift)
 import Control.Exception (IOException, catch, ioError)
-import Control.Monad (Monad)
+import Control.Monad (Monad ((>>=), (>>)))
 import Data.Monoid (Monoid)
-import Prelude (Either (Left, Right), Maybe (Nothing), either, flip, (.), IO, pure, (<$>), (>>=))
+import Prelude (Either (Left, Right), Maybe (Nothing), either, flip, (.), IO, pure, (<$>))
 
 {- |
 The strategy of combining computations that can throw exceptions
@@ -226,6 +227,14 @@ withError f action = tryError action >>= either (throwError . f) pure
 -- @since 2.3
 handleError :: MonadError e m => (e -> m a) -> m a -> m a
 handleError = flip catchError
+
+-- | If an action throws an error, run a second action and rethrow the error.
+-- If the second action also throws an error, it takes precedence.  Do not run
+-- the second action at all if the first succeeds.
+--
+-- @since 2.3.2
+onError :: MonadError e m => m a -> m b -> m a
+onError action1 action2 = action1 `catchError` \e -> action2 >> throwError e
 
 -- | 'MonadError' analogue of the 'mapExceptT' function.  The
 -- computation is unwrapped, a function is applied to the @Either@, and
