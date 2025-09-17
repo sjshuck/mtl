@@ -41,6 +41,7 @@ module Control.Monad.Except
     Error.tryError,
     Error.withError,
     Error.handleError,
+    Error.onError,
     Error.mapError,
     Error.modifyError,
     -- * The ExceptT monad transformer
